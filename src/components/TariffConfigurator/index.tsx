@@ -35,7 +35,7 @@ export const TariffConfigurator: FC = (): JSX.Element => {
     <div className={styles.wrapper}>
       <h1>Настройте тариф</h1>
 
-      <form onSubmit={() => onSubmitValues}>
+      <form onSubmit={() => onSubmitValues} className={styles.form}>
         <Sliders data={tariffData.tariffSliderData} />
 
         <ExtraServices data={tariffData.extraServices} />
