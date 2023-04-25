@@ -7,11 +7,13 @@ import { ITariffData } from '../../types'
 interface ButtonTotalCostProps {
   data: ITariffData
   type: ButtonType
+  onSubmit: (totalCost: number) => void
 }
 
 export const ButtonTotalCost: FC<ButtonTotalCostProps> = ({
   data,
-  type
+  type,
+  onSubmit
 }): JSX.Element => {
   const totalSliderCost = data.tariffSliderData.reduce(
     (acc, curr) => acc + curr.value * 2,
@@ -23,7 +25,9 @@ export const ButtonTotalCost: FC<ButtonTotalCostProps> = ({
 
   const totalCost = totalSliderCost + totalExtraServiceCost
 
-  console.log('ButtonTotalCost')
-
-  return <Button type={type}>{totalCost} ₽ в месяц</Button>
+  return (
+    <Button type={type} onClick={() => onSubmit(totalCost)}>
+      {totalCost} ₽ в месяц
+    </Button>
+  )
 }

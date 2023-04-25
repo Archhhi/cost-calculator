@@ -9,15 +9,43 @@ import { useAppSelector } from '../../hooks/redux'
 export const TariffConfigurator: FC = (): JSX.Element => {
   const { tariffData } = useAppSelector((state) => state.tariffSlice)
 
+  const onSubmitValues = (totalCost: number) => {
+    const jsonModel = {
+      minute: tariffData.tariffSliderData.find(
+        (tariffSlider) => tariffSlider.name === 'minute'
+      )!.value,
+      sms: tariffData.tariffSliderData.find(
+        (tariffSlider) => tariffSlider.name === 'sms'
+      )!.value,
+      gb: tariffData.tariffSliderData.find(
+        (tariffSlider) => tariffSlider.name === 'gb'
+      )!.value,
+      rent: tariffData.extraServices.find(
+        (service) => service.title === 'Аренда'
+      )!.checked,
+      installments: tariffData.extraServices.find(
+        (service) => service.title === 'Рассрочка'
+      )!.checked,
+      totalCost: totalCost
+    }
+    alert(JSON.stringify(jsonModel))
+  }
+
   return (
     <div className={styles.wrapper}>
       <h1>Настройте тариф</h1>
 
-      <Sliders data={tariffData.tariffSliderData} />
+      <form onSubmit={() => onSubmitValues}>
+        <Sliders data={tariffData.tariffSliderData} />
 
-      <ExtraServices data={tariffData.extraServices} />
+        <ExtraServices data={tariffData.extraServices} />
 
-      <ButtonTotalCost data={tariffData} type={'primary'} />
+        <ButtonTotalCost
+          data={tariffData}
+          type={'primary'}
+          onSubmit={onSubmitValues}
+        />
+      </form>
     </div>
   )
 }
